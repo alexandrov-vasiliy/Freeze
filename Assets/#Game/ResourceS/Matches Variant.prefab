@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2691285982792271618, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.86
+      value: 5.53
       objectReference: {fileID: 0}
     - target: {fileID: 2691285982792271618, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.41
+      value: 2.42
       objectReference: {fileID: 0}
     - target: {fileID: 2691285982792271618, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -65,13 +65,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2781620068473891499, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
+      propertyPath: managedReferences[2950711132863332655].MaxVolume
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2781620068473891499, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
+      propertyPath: managedReferences[2950711132863332655].MinVolume
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2781620068473891499, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
       propertyPath: managedReferences[2950711132863332655].RandomSfx.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2781620068473891499, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
       propertyPath: 'managedReferences[2950711132863332655].RandomSfx.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: 0b56df2a3a2c645a3a1f5caa0f57eed5, type: 3}
+      objectReference: {fileID: 8300000, guid: 80d31d13bcb664ac6b66aa6fbed4d6d3, type: 3}
     - target: {fileID: 2781620068473891499, guid: a958d87ea9b46fa48aa3a191bc57f3c7, type: 3}
       propertyPath: 'managedReferences[2950711132863332655].RandomSfx.Array.data[1]'
       value: 

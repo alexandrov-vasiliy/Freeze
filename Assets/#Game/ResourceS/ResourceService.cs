@@ -29,4 +29,26 @@ public class ResourceService
     {
         return _counts.TryGetValue(resourceType, out int count) ? count : 0;
     }
+
+    /// <summary>
+    /// Проверяет, хватает ли ресурсов (без списания). Для подсказок UI и проверки перед действием.
+    /// </summary>
+    public bool CanSpend(ResourceType resourceType, int amount)
+    {
+        return GetCount(resourceType) >= amount;
+    }
+
+    /// <summary>
+    /// Пытается списать ресурсы. Возвращает true и списывает при достаточном количестве, иначе false.
+    /// </summary>
+    public bool TrySpend(ResourceType resourceType, int amount)
+    {
+        if (GetCount(resourceType) < amount)
+            return false;
+
+        int current = _counts[resourceType];
+        _counts[resourceType] = current - amount;
+        OnResourceChanged?.Invoke(resourceType);
+        return true;
+    }
 }
