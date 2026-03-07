@@ -457,7 +457,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0059538484, y: -0.0033674836}
+  m_Offset: {x: -0.00060385466, y: 0.0050200187}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -467,7 +467,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.82138526, y: 0.74052083}
+  m_Size: {x: 0.28366792, y: 0.2288793}
   m_EdgeRadius: 0
 --- !u!114 &8744166377716135859
 MonoBehaviour:
@@ -482,7 +482,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   trapFeedbackPlayer: {fileID: 3718423412424366578}
-  deathPanelCanvasGroup: {fileID: 0}
   delayBeforeDeathPanel: 20
   deathPanelFadeSpeed: 1.09
   targetAlpha: 1

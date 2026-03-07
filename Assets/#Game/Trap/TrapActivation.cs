@@ -9,11 +9,6 @@ public class TrapActivation : MonoBehaviour
     [Tooltip("MMF_Player для проигрывания фидбэка при попадании в ловушку")]
     private MMF_Player trapFeedbackPlayer;
 
-    [Header("Death Panel")]
-    [SerializeField]
-    [Tooltip("CanvasGroup панели смерти")]
-    private CanvasGroup deathPanelCanvasGroup;
-
     [SerializeField]
     [Tooltip("Задержка после активации ловушки перед появлением панели смерти")]
     private float delayBeforeDeathPanel = 1f;
@@ -28,10 +23,12 @@ public class TrapActivation : MonoBehaviour
 
     private bool _isActivated;
     //private TopDownMovement2D _movement;
-    
+    private CanvasGroup deathPanelCanvasGroup;
 
     private void Awake()
     {
+        deathPanelCanvasGroup = G.DeathPanel.GetComponent<CanvasGroup>();
+        
         //_movement = GetComponent<TopDownMovement2D>();
         if (deathPanelCanvasGroup != null)
         {
