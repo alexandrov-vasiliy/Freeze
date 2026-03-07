@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7246074713778808264}
   - component: {fileID: 7653889929625527682}
+  - component: {fileID: 2467378057913539819}
   m_Layer: 0
-  m_Name: Light 2D
+  m_Name: ConeLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,6 +45,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FunkyCode.Light2D
+  lightType: 0
+  lightPresetId: 0
+  eventPresetId: 0
+  lightLayer: 0
+  occlusionLayer: 0
+  translucentLayer: 0
+  translucentPresetId: 0
+  color: {r: 0.46148095, g: 0.5460468, b: 0.5471698, a: 0.7}
+  size: 5
+  spotAngleInner: 54.142265
+  spotAngleOuter: 169.70331
+  coreSize: 0.5
+  falloff: 0
+  lightStrength: 1
+  outerAngle: 29.3
+  lightRadius: 1
+  shadowDistanceClose: 0
+  shadowDistanceFar: 5
+  maskTranslucencyQuality: 1
+  maskTranslucencyStrength: 0.5
+  applyRotation: 2
+  textureSize: 1
+  meshMode:
+    enable: 0
+    alpha: 0.46
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  bumpMap:
+    intensity: 1
+    depth: 1
+  whenInsideCollider: 0
+  lightSprite: 1
+  sprite: {fileID: 21300000, guid: 58083ce6efc5d234cbfd0a97cfebca37, type: 3}
+  spriteFlipX: 0
+  spriteFlipY: 0
+  freeFormFalloff: 1
+  freeFormPoint: 1
+  freeFormFalloffStrength: 1
+  freeFormPoints:
+    points:
+    - {x: 5.6276608, y: 3.8740766}
+    - {x: -0.3503828, y: 0.05810678}
+    - {x: 5.1173916, y: -4.9483485}
+  drawingEnabled: 1
+  drawingTranslucencyEnabled: 1
+--- !u!114 &2467378057913539819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355646740376510252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b946bae327b1f2c43b30a0b6621b30fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FaceCursor2D
+  enableRotation: 1
+  targetCamera: {fileID: 0}
+  worldPlaneZ: 0
+  angleOffsetDegrees: -80
+  rotationSmoothingSpeed: 10
+--- !u!1 &4081416812477549850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3846899356877868054}
+  - component: {fileID: 5587163869606917017}
+  m_Layer: 0
+  m_Name: SmallLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3846899356877868054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4081416812477549850}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0.03489945, w: -0.99939084}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4854972844506090448}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5587163869606917017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4081416812477549850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FunkyCode.Light2D
   lightType: 1
   lightPresetId: 0
   eventPresetId: 0
@@ -52,7 +163,7 @@ MonoBehaviour:
   translucentLayer: 0
   translucentPresetId: 0
   color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  size: 8.118557
+  size: 1.6185293
   spotAngleInner: 360
   spotAngleOuter: 360
   coreSize: 0.5
@@ -80,7 +191,7 @@ MonoBehaviour:
     depth: 1
   whenInsideCollider: 0
   lightSprite: 0
-  sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
+  sprite: {fileID: -1809482635458488319, guid: 440c873da2936e7448774ef8b916e9d3, type: 3}
   spriteFlipX: 0
   spriteFlipY: 0
   freeFormFalloff: 1
@@ -88,9 +199,9 @@ MonoBehaviour:
   freeFormFalloffStrength: 1
   freeFormPoints:
     points:
-    - {x: 5.6276608, y: 3.8740766}
-    - {x: -0.3503828, y: 0.05810678}
-    - {x: 5.1173916, y: -4.9483485}
+    - {x: 1, y: 0}
+    - {x: -0.50000006, y: 0.8660254}
+    - {x: -0.4999999, y: -0.86602545}
   drawingEnabled: 1
   drawingTranslucencyEnabled: 0
 --- !u!1 &6279896284418365946
@@ -226,6 +337,8 @@ GameObject:
   - component: {fileID: 4854972844506090449}
   - component: {fileID: 4854972844506090450}
   - component: {fileID: 6513040994598592041}
+  - component: {fileID: 3504537729129652166}
+  - component: {fileID: 8003313005889111189}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -247,6 +360,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7246074713778808264}
+  - {fileID: 3846899356877868054}
   - {fileID: 6130776293323663212}
   - {fileID: 2723460056865014220}
   - {fileID: 3456763135521880905}
@@ -278,7 +392,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 0
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &4854972844506090450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,11 +405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f3c8e21d4b5944a8e2f1c9b5d6e7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3
+  isMoving: 0
+  movementSpeed: 1.5
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
   stepFeedbackPlayer: {fileID: 4811309931794888865}
-  stepInterval: 0.7
+  stepInterval: 1
 --- !u!58 &6513040994598592041
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -332,6 +447,37 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &3504537729129652166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597560929653175413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54652f4d6972d9749a33b0ef966602f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TemperatureStat
+  maxTemperature: 100
+  currentTemperature: 100
+  freezeRateIdle: 3
+  freezeRateMoving: 0.01
+  heatRate: 3
+  temperatureTickInterval: 5
+--- !u!114 &8003313005889111189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597560929653175413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 184d97bdb1606e24f8d376e8eed1b3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  campFireColliderInRange: 0
 --- !u!1 &8775075651469084291
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +703,14 @@ MonoBehaviour:
         TargetAudioSource: {fileID: 9149578444806471362}
         Mode: 0
         RandomSfx:
-        - {fileID: 8300000, guid: 08ad2b50bcdd548da9fdd9ef4a1e9d43, type: 3}
+        - {fileID: 8300000, guid: 0f592027e66029d4b8cf9bee66bb5281, type: 3}
+        - {fileID: 8300000, guid: 431a1eba43ee6a547b436d68e9877a23, type: 3}
+        - {fileID: 8300000, guid: dad18937e86a1cd41b412af52d172acf, type: 3}
+        - {fileID: 8300000, guid: a50b061bd389042438a872e6fadf1031, type: 3}
+        - {fileID: 8300000, guid: 9a655e23969f9984981f25daeb3ba5da, type: 3}
+        - {fileID: 8300000, guid: 4b23319463b2c354db429432c9923806, type: 3}
+        - {fileID: 8300000, guid: bfc4cc6c8131a6a439511d5c0c3cb13d, type: 3}
+        - {fileID: 8300000, guid: c16af8f498492fa458b8ad5a3e16ce0d, type: 3}
         MinVolume: 0.76
         MaxVolume: 0.88
         MinPitch: 0.88

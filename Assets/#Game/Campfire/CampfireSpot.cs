@@ -33,6 +33,8 @@ public class CampfireSpot : MonoBehaviour
     [Tooltip("Спрайт горящего костра")]
     private Sprite spriteLit;
 
+    [SerializeField] private GameObject _warmZone;
+
     [Header("Звук и фидбэк")]
     [SerializeField]
     [Tooltip("Один раз проигрывается при поджигании")]
@@ -85,16 +87,7 @@ public class CampfireSpot : MonoBehaviour
 
         
     }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.TryGetComponent<Player>(out _))
-        {
-            if (_isLit)
-            {
-                other.GetComponent<Player>().campFireColliderInRange = true;
-            }
-        }
-    }
+
 
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -159,8 +152,10 @@ public class CampfireSpot : MonoBehaviour
 
     private void LightFire()
     {
+        
         _isLit = true;
-
+        _warmZone.SetActive(true);
+        
         if (spriteRenderer != null && spriteLit != null)
             spriteRenderer.sprite = spriteLit;
 
