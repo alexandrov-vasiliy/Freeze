@@ -10,7 +10,7 @@ public class TemperaturePanel : MonoBehaviour
     [SerializeField] private float maxAlpha = 0.6f;
 
     [Header("Fade")]
-    [SerializeField] private float fadeSpeed = 4f;
+    [SerializeField] private float fadeSpeed = 0.01f;
 
     private CanvasGroup _canvasGroup;
     private float _targetAlpha;

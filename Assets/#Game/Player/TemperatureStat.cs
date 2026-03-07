@@ -9,7 +9,7 @@ public class TemperatureStat : MonoBehaviour
 
     [Header("Rates per second")]
     [SerializeField] private float freezeRateIdle = 2f;
-    [SerializeField] private float freezeRateMoving = 2f;
+    [SerializeField] private float freezeRateMoving = 0.02f;
     [SerializeField] private float heatRate = 3f;
 
     [Header("Update")]
@@ -47,17 +47,16 @@ public class TemperatureStat : MonoBehaviour
             _temperatureTickTimer = 0f;
         }
 
-        float ratePerSecond;
+        float rate;
 
         if (_player != null && _player.campFireColliderInRange)
-            ratePerSecond = heatRate;
+            rate = heatRate;
         else if (_movement != null && _movement.isMoving)
-            ratePerSecond = -freezeRateMoving;
+            rate = -freezeRateMoving;
         else
-            ratePerSecond = -freezeRateIdle;
-
-        float delta = ratePerSecond * deltaTimeToUse;
-        ChangeTemperature(delta);
+            rate = -freezeRateIdle;
+        
+        ChangeTemperature(rate * deltaTimeToUse);
     }
 
     public void ChangeTemperature(float delta)
@@ -73,11 +72,4 @@ public class TemperatureStat : MonoBehaviour
         }
     }
 
-    public float GetColdPercent()
-    {
-        if (maxTemperature <= 0f)
-            return 1f;
-
-        return 1f - (currentTemperature / maxTemperature);
-    }
 }
