@@ -4,6 +4,9 @@ using MoreMountains.Feedbacks;
 [RequireComponent(typeof(Rigidbody2D))]
 public class TopDownMovement2D : MonoBehaviour
 {
+
+    public bool isMoving;
+    
     [SerializeField]
     [Tooltip("Скорость движения в единицах в секунду")]
     private float movementSpeed = 5f;
@@ -52,6 +55,7 @@ public class TopDownMovement2D : MonoBehaviour
 
         if (stepFeedbackPlayer != null && direction.sqrMagnitude > 0.01f)
         {
+            isMoving = true;
             _stepCooldown -= Time.fixedDeltaTime;
             if (_stepCooldown <= 0f)
             {
@@ -61,6 +65,7 @@ public class TopDownMovement2D : MonoBehaviour
         }
         else
         {
+            isMoving = false;
             _stepCooldown = 0f;
         }
     }

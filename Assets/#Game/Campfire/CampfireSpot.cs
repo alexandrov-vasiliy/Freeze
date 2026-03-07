@@ -79,13 +79,31 @@ public class CampfireSpot : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<Player>(out _))
+        {
             _playerColliderInRange = other;
+        }
+
+        
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Player>(out _))
+        {
+            if (_isLit)
+            {
+                other.GetComponent<Player>().campFireColliderInRange = true;
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other == _playerColliderInRange)
+        {
+            other.GetComponent<Player>().campFireColliderInRange = false;
             _playerColliderInRange = null;
+        }
+
     }
 
     private void Update()
