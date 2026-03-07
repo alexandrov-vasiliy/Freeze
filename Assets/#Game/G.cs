@@ -5,4 +5,5 @@ public static class G
 {
     public static ResourceService Resources;
     public static DeathPanel DeathPanel;
+    public static MainMenu mainMenu;
 }
