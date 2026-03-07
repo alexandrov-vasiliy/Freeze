@@ -82,6 +82,7 @@ public class CampfireSpot : MonoBehaviour
     {
         if (other.TryGetComponent<Player>(out _))
         {
+            G.hintText.SetActive(true);
             _playerColliderInRange = other;
         }
 
@@ -93,7 +94,7 @@ public class CampfireSpot : MonoBehaviour
     {
         if (other == _playerColliderInRange)
         {
-            other.GetComponent<Player>().campFireColliderInRange = false;
+            G.hintText.SetActive(false);
             _playerColliderInRange = null;
         }
 

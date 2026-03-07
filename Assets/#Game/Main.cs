@@ -5,12 +5,12 @@ using UnityEngine.Serialization;
 public class Main : MonoBehaviour
 {
     [SerializeField] private DeathPanel deathPanel;
-    [SerializeField] private MainMenu mainMenu;
+    [SerializeField] private GameObject hint;
     private void Awake()
     {
         ResourceService resourceService = new ResourceService();
         G.Resources = resourceService;
         G.DeathPanel = deathPanel;
-        G.mainMenu = mainMenu;
+        G.hintText = hint;
     }
 }

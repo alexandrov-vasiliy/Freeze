@@ -35,13 +35,21 @@ public class ResourcePick : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<Player>(out _))
+        {
             _playerColliderInRange = other;
+            G.hintText.SetActive(true);
+        }
+
+        
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other == _playerColliderInRange)
+        {
+            G.hintText.SetActive(false);
             _playerColliderInRange = null;
+        }
     }
 
     private void Update()
