@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0f7b113ca6f754d97afa2f4e484dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HintData
-  hintText: 'bring sticks and matches [E]'
+  hintText: 'bring 2 sticks and matches [E]'
 --- !u!114 &1000000005
 MonoBehaviour:
   m_ObjectHideFlags: 0
