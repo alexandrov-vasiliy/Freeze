@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7246074713778808264}
   - component: {fileID: 7653889929625527682}
   - component: {fileID: 2467378057913539819}
+  - component: {fileID: 1943565297326341779}
   m_Layer: 0
   m_Name: ConeLight
   m_TagString: Untagged
@@ -111,6 +112,116 @@ MonoBehaviour:
   worldPlaneZ: 0
   angleOffsetDegrees: -80
   rotationSmoothingSpeed: 10
+--- !u!114 &1943565297326341779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355646740376510252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b946bae327b1f2c43b30a0b6621b30fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FaceCursor2D
+  enableRotation: 1
+  targetCamera: {fileID: 0}
+  worldPlaneZ: 0
+  angleOffsetDegrees: -80
+  rotationSmoothingSpeed: 10
+--- !u!1 &853203843005001569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3609756637492958079}
+  - component: {fileID: 7316031643144244082}
+  m_Layer: 0
+  m_Name: SmallLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3609756637492958079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853203843005001569}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0.03489945, w: -0.99939084}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4854972844506090448}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7316031643144244082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853203843005001569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FunkyCode.Light2D
+  lightType: 1
+  lightPresetId: 0
+  eventPresetId: 0
+  lightLayer: 0
+  occlusionLayer: 0
+  translucentLayer: 0
+  translucentPresetId: 0
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  size: 1.6185293
+  spotAngleInner: 360
+  spotAngleOuter: 360
+  coreSize: 0.5
+  falloff: 0
+  lightStrength: 0
+  outerAngle: 15
+  lightRadius: 1
+  shadowDistanceClose: 0
+  shadowDistanceFar: 5
+  maskTranslucencyQuality: 1
+  maskTranslucencyStrength: 0.5
+  applyRotation: 0
+  textureSize: 1
+  meshMode:
+    enable: 0
+    alpha: 0.5
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  bumpMap:
+    intensity: 1
+    depth: 1
+  whenInsideCollider: 0
+  lightSprite: 0
+  sprite: {fileID: -1809482635458488319, guid: 440c873da2936e7448774ef8b916e9d3, type: 3}
+  spriteFlipX: 0
+  spriteFlipY: 0
+  freeFormFalloff: 1
+  freeFormPoint: 1
+  freeFormFalloffStrength: 1
+  freeFormPoints:
+    points:
+    - {x: 1, y: 0}
+    - {x: -0.50000006, y: 0.8660254}
+    - {x: -0.4999999, y: -0.86602545}
+  drawingEnabled: 1
+  drawingTranslucencyEnabled: 0
 --- !u!1 &4081416812477549850
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +393,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -3
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.3132075, g: 0.2854325, b: 0.28863007, a: 1}
   m_FlipX: 0
@@ -340,6 +451,9 @@ GameObject:
   - component: {fileID: 3504537729129652166}
   - component: {fileID: 8003313005889111189}
   - component: {fileID: 8003313005889111190}
+  - component: {fileID: 8923550618486525225}
+  - component: {fileID: 3882287751690987755}
+  - component: {fileID: 6804849184813470374}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -361,6 +475,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7246074713778808264}
+  - {fileID: 3609756637492958079}
   - {fileID: 3846899356877868054}
   - {fileID: 6130776293323663212}
   - {fileID: 2723460056865014220}
@@ -492,6 +607,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActivityDetector
   cursorMovementThresholdPixels: 2.5
+--- !u!114 &8923550618486525225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597560929653175413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54652f4d6972d9749a33b0ef966602f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TemperatureStat
+  maxTemperature: 100
+  currentTemperature: 100
+  freezeRateIdle: 3
+  freezeRateMoving: 0.01
+  heatRate: 3
+  temperatureTickInterval: 5
+--- !u!114 &3882287751690987755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597560929653175413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 184d97bdb1606e24f8d376e8eed1b3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  campFireColliderInRange: 0
+--- !u!114 &6804849184813470374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597560929653175413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d76a5f58502e40241882b7ef8b468f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractorDisplayer
 --- !u!1 &8775075651469084291
 GameObject:
   m_ObjectHideFlags: 0
