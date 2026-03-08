@@ -9,6 +9,8 @@ public class Main : MonoBehaviour
     private void Awake()
     {
         ResourceService resourceService = new ResourceService();
+        resourceService.Add(ResourceType.Matches, 8);
+        
         G.Resources = resourceService;
         G.DeathPanel = deathPanel;
         G.hintText = hint;

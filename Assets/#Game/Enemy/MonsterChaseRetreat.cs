@@ -55,9 +55,22 @@ public class MonsterChaseRetreat : MonoBehaviour
     [Tooltip("Минимальная дистанция до игрока, при которой монстр может перейти в Idle после отхода")]
     private float minDistanceFromPlayerToResumeIdle = 8f;
 
+    [Header("Звук при начале преследования")]
+    [SerializeField]
+    [Tooltip("Звуки проигрываются по очереди при каждом старте преследования")]
+    private AudioClip[] chaseStartSounds = Array.Empty<AudioClip>();
+
+    [SerializeField]
+    [Tooltip("Источник звука на монстре (если не задан — будет взят GetComponent)")]
+    private AudioSource audioSource;
+
     [Header("Замирание игрока")]
     [SerializeField]
-    [Tooltip("Сколько секунд игрок должен быть неподвижен, чтобы монстр перешёл в отход")]
+    [Tooltip("Дистанция до игрока, внутри которой монстр останавливается, если игрок стоит. Если монстр дальше — подходит, не останавливаясь")]
+    private float stopNearPlayerDistance = 2f;
+
+    [SerializeField]
+    [Tooltip("Сколько секунд игрок должен стоять на месте (монстр уже остановился рядом), чтобы монстр ушёл к точке отхода")]
     private float stillDetectionInterval = 0.8f;
 
     [Header("Зигзаг (для стиля Zigzag)")]
@@ -79,6 +92,7 @@ public class MonsterChaseRetreat : MonoBehaviour
     private PlayerActivityDetector _playerActivityDetector;
     private int _currentRetreatPointIndex;
     private float _stillTimer;
+    private int _nextChaseSoundIndex;
 
     private void OnEnable()
     {
@@ -110,6 +124,20 @@ public class MonsterChaseRetreat : MonoBehaviour
         _playerActivityDetector = player.GetComponent<PlayerActivityDetector>();
         _state = MonsterState.Chase;
         _stillTimer = 0f;
+        PlayNextChaseStartSound();
+    }
+
+    private void PlayNextChaseStartSound()
+    {
+        if (chaseStartSounds == null || chaseStartSounds.Length == 0)
+            return;
+        AudioSource source = audioSource != null ? audioSource : GetComponent<AudioSource>();
+        if (source == null)
+            return;
+        AudioClip clip = chaseStartSounds[_nextChaseSoundIndex];
+        if (clip != null)
+            source.PlayOneShot(clip);
+        _nextChaseSoundIndex = (_nextChaseSoundIndex + 1) % chaseStartSounds.Length;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -135,6 +163,7 @@ public class MonsterChaseRetreat : MonoBehaviour
         switch (_state)
         {
             case MonsterState.Idle:
+                UpdateIdle(deltaTime);
                 break;
 
             case MonsterState.Chase:
@@ -147,6 +176,24 @@ public class MonsterChaseRetreat : MonoBehaviour
         }
     }
 
+    private void UpdateIdle(float deltaTime)
+    {
+        // Idle рядом с игроком: ждём — либо игрок снова двинется (вернёмся в Chase), либо истечёт таймер (уход к точке)
+        if (_playerTransform == null || _playerActivityDetector == null)
+            return;
+
+        if (!_playerActivityDetector.IsCompletelyStill)
+        {
+            _state = MonsterState.Chase;
+            _stillTimer = 0f;
+            return;
+        }
+
+        _stillTimer += deltaTime;
+        if (_stillTimer >= stillDetectionInterval)
+            TryStartRetreat();
+    }
+
     private void UpdateChase(float deltaTime)
     {
         if (_playerTransform == null)
@@ -155,21 +202,19 @@ public class MonsterChaseRetreat : MonoBehaviour
             return;
         }
 
-        if (_playerActivityDetector != null && _playerActivityDetector.IsCompletelyStill)
+        Vector2 from = transform.position;
+        float distanceToPlayer = Vector2.Distance(from, _playerTransform.position);
+
+        if (_playerActivityDetector != null && _playerActivityDetector.IsCompletelyStill
+            && distanceToPlayer <= stopNearPlayerDistance)
         {
-            _stillTimer += deltaTime;
-            if (_stillTimer >= stillDetectionInterval)
-            {
-                TryStartRetreat();
-                return;
-            }
-        }
-        else
-        {
+            // Игрок стоит и монстр уже рядом — останавливаемся, таймер до отхода пойдёт в Idle
+            _state = MonsterState.Idle;
             _stillTimer = 0f;
+            return;
         }
 
-        Vector2 from = transform.position;
+        // Игрок далеко или двигается — продолжаем преследование
         Vector2 to = _playerTransform.position;
         Vector2 direction = GetMovementDirection(from, to, Time.time, chaseMovementStyle);
         transform.position = from + direction * (chaseSpeed * deltaTime);
@@ -212,22 +257,21 @@ public class MonsterChaseRetreat : MonoBehaviour
 
         if (distanceToPoint < retreatPointReachDistance)
         {
+            // Дошли до точки — только теперь проверяем, уходить ли в Idle (далеко от игрока) или идти к следующей точке
+            if (_playerTransform != null)
+            {
+                float distanceToPlayer = Vector2.Distance(from, _playerTransform.position);
+                if (distanceToPlayer > minDistanceFromPlayerToResumeIdle)
+                {
+                    _state = MonsterState.Idle;
+                    _currentRetreatPointIndex = 0;
+                    return;
+                }
+            }
             _currentRetreatPointIndex++;
-            // По кругу: после последней точки переходим к первой, не в Idle
             if (_currentRetreatPointIndex >= retreatPoints.Length)
                 _currentRetreatPointIndex = 0;
             return;
-        }
-
-        if (_playerTransform != null)
-        {
-            float distanceToPlayer = Vector2.Distance(from, _playerTransform.position);
-            if (distanceToPlayer > minDistanceFromPlayerToResumeIdle)
-            {
-                _state = MonsterState.Idle;
-                _currentRetreatPointIndex = 0;
-                return;
-            }
         }
 
         Vector2 direction = GetMovementDirection(from, to, Time.time, entry.movementStyle);
