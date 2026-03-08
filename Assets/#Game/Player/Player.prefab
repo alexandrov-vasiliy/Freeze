@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7246074713778808264}
   - component: {fileID: 7653889929625527682}
   - component: {fileID: 2467378057913539819}
+  - component: {fileID: 6982344856127650111}
   - component: {fileID: 1943565297326341779}
   m_Layer: 0
   m_Name: ConeLight
@@ -96,6 +97,23 @@ MonoBehaviour:
   drawingEnabled: 1
   drawingTranslucencyEnabled: 1
 --- !u!114 &2467378057913539819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355646740376510252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b946bae327b1f2c43b30a0b6621b30fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FaceCursor2D
+  enableRotation: 1
+  targetCamera: {fileID: 0}
+  worldPlaneZ: 0
+  angleOffsetDegrees: -80
+  rotationSmoothingSpeed: 10
+--- !u!114 &6982344856127650111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,7 +291,7 @@ MonoBehaviour:
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  color: {r: 0.18490559, g: 0.16990381, b: 0.16990381, a: 1}
   size: 1.6185293
   spotAngleInner: 360
   spotAngleOuter: 360
@@ -325,6 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6130776293323663212}
   - component: {fileID: 1897890741993468330}
+  - component: {fileID: 4678508151831662421}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
@@ -342,8 +361,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.48600003, y: 0.78, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4854972844506090448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -405,6 +424,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4678508151831662421
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6279896284418365946}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8401d3ddb3c78cf4bb3c511fcf1632d0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6377911703187283354
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,6 +495,9 @@ GameObject:
   - component: {fileID: 8923550618486525225}
   - component: {fileID: 3882287751690987755}
   - component: {fileID: 6804849184813470374}
+  - component: {fileID: 6656746742955588098}
+  - component: {fileID: 3048857375493771211}
+  - component: {fileID: 379568734749730964}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -607,38 +651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActivityDetector
   cursorMovementThresholdPixels: 2.5
---- !u!114 &8923550618486525225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7597560929653175413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54652f4d6972d9749a33b0ef966602f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TemperatureStat
-  maxTemperature: 100
-  currentTemperature: 100
-  freezeRateIdle: 3
-  freezeRateMoving: 0.01
-  heatRate: 3
-  temperatureTickInterval: 5
---- !u!114 &3882287751690987755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7597560929653175413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 184d97bdb1606e24f8d376e8eed1b3e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
-  campFireColliderInRange: 0
---- !u!114 &6804849184813470374
+--- !u!114 &6656746742955588098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -650,6 +663,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76a5f58502e40241882b7ef8b468f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractorDisplayer
+--- !u!95 &3048857375493771211
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597560929653175413}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &379568734749730964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597560929653175413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e4d932e5c6a055b9f3a2d0c6e7b1a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerView
+  animator: {fileID: 4678508151831662421}
+  topDownMovement: {fileID: 4854972844506090450}
+  moveXParameterName: MoveX
+  moveYParameterName: MoveY
 --- !u!1 &8775075651469084291
 GameObject:
   m_ObjectHideFlags: 0

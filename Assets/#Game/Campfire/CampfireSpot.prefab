@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: -7212107252432665747, guid: 2a821c95429c1244998a17c5c9286eec, type: 3}
+  m_Sprite: {fileID: -3975690988267207872, guid: 6bb54b049ca452d48961b43816f6bb6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -137,7 +137,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.681387, y: 2.45}
+    oldSize: {x: 9.28, y: 8.131584}
     newSize: {x: 9.28, y: 8.131584}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   currentState: 0
   costToAddWood:
   - type: 0
-    amount: 1
+    amount: 2
   costToIgnite:
   - type: 1
     amount: 1
@@ -640,7 +640,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

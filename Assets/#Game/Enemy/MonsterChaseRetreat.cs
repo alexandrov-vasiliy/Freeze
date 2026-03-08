@@ -51,19 +51,6 @@ public class MonsterChaseRetreat : MonoBehaviour
     [Tooltip("Дистанция, при которой монстр считается достигшим точки отхода")]
     private float retreatPointReachDistance = 0.15f;
 
-    [SerializeField]
-    [Tooltip("Минимальная дистанция до игрока, при которой монстр может перейти в Idle после отхода")]
-    private float minDistanceFromPlayerToResumeIdle = 8f;
-
-    [Header("Звук при начале преследования")]
-    [SerializeField]
-    [Tooltip("Звуки проигрываются по очереди при каждом старте преследования")]
-    private AudioClip[] chaseStartSounds = Array.Empty<AudioClip>();
-
-    [SerializeField]
-    [Tooltip("Источник звука на монстре (если не задан — будет взят GetComponent)")]
-    private AudioSource audioSource;
-
     [Header("Замирание игрока")]
     [SerializeField]
     [Tooltip("Дистанция до игрока, внутри которой монстр останавливается, если игрок стоит. Если монстр дальше — подходит, не останавливаясь")]
@@ -92,7 +79,55 @@ public class MonsterChaseRetreat : MonoBehaviour
     private PlayerActivityDetector _playerActivityDetector;
     private int _currentRetreatPointIndex;
     private float _stillTimer;
-    private int _nextChaseSoundIndex;
+    private MonsterView _monsterView;
+    private bool _retreatRequested;
+
+    /// <summary> Текущее состояние монстра (для MonsterView и прочих). </summary>
+    public MonsterState CurrentState => _state;
+
+    /// <summary> Монстр стоит рядом с игроком (Idle или Chase в зоне остановки). Для отключения анимации движения. </summary>
+    public bool IsStandingNearPlayer
+    {
+        get
+        {
+            if (_playerTransform == null) return false;
+            if (_state == MonsterState.Idle) return true;
+            if (_state == MonsterState.Chase && Vector2.Distance(transform.position, _playerTransform.position) <= stopNearPlayerDistance)
+                return true;
+            return false;
+        }
+    }
+
+    /// <summary> Вызывается при старте преследования (Idle → Chase). </summary>
+    public event Action OnChaseStarted;
+
+    /// <summary> Для отладки в редакторе: индекс текущей точки отхода. </summary>
+    public int DebugRetreatPointIndex => _currentRetreatPointIndex;
+
+    /// <summary> Для отладки в редакторе: таймер неподвижности игрока (сек). </summary>
+    public float DebugStillTimer => _stillTimer;
+
+    /// <summary> Для отладки в редакторе: запрошен отход (ждём анимацию). </summary>
+    public bool DebugRetreatRequested => _retreatRequested;
+
+    /// <summary> Для отладки в редакторе: куда идёт монстр (игрок при Chase, точка при Retreat). </summary>
+    public Vector3? GetDebugTargetPosition()
+    {
+        if (_state == MonsterState.Chase && _playerTransform != null)
+            return _playerTransform.position;
+        if (_state == MonsterState.Retreat && retreatPoints != null && retreatPoints.Length > 0)
+        {
+            int index = _currentRetreatPointIndex >= retreatPoints.Length ? 0 : _currentRetreatPointIndex;
+            if (retreatPoints[index].point != null)
+                return retreatPoints[index].point.position;
+        }
+        return null;
+    }
+
+    private void Awake()
+    {
+        _monsterView = GetComponent<MonsterView>();
+    }
 
     private void OnEnable()
     {
@@ -124,20 +159,7 @@ public class MonsterChaseRetreat : MonoBehaviour
         _playerActivityDetector = player.GetComponent<PlayerActivityDetector>();
         _state = MonsterState.Chase;
         _stillTimer = 0f;
-        PlayNextChaseStartSound();
-    }
-
-    private void PlayNextChaseStartSound()
-    {
-        if (chaseStartSounds == null || chaseStartSounds.Length == 0)
-            return;
-        AudioSource source = audioSource != null ? audioSource : GetComponent<AudioSource>();
-        if (source == null)
-            return;
-        AudioClip clip = chaseStartSounds[_nextChaseSoundIndex];
-        if (clip != null)
-            source.PlayOneShot(clip);
-        _nextChaseSoundIndex = (_nextChaseSoundIndex + 1) % chaseStartSounds.Length;
+        OnChaseStarted?.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -148,12 +170,19 @@ public class MonsterChaseRetreat : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent<Player>(out _))
+        if (!other.TryGetComponent<Player>(out _))
+            return;
+        // В режиме отхода игрок сам уходит из триггера — не сбрасывать состояние, идём к точкам
+        if (_state == MonsterState.Retreat)
         {
             _playerTransform = null;
             _playerActivityDetector = null;
-            _state = MonsterState.Idle;
+            return;
         }
+        _playerTransform = null;
+        _playerActivityDetector = null;
+        _state = MonsterState.Idle;
+        _retreatRequested = false;
     }
 
     private void Update()
@@ -185,13 +214,15 @@ public class MonsterChaseRetreat : MonoBehaviour
         if (!_playerActivityDetector.IsCompletelyStill)
         {
             _state = MonsterState.Chase;
-            _stillTimer = 0f;
             return;
         }
 
         _stillTimer += deltaTime;
-        if (_stillTimer >= stillDetectionInterval)
+        if (_stillTimer >= stillDetectionInterval && !_retreatRequested)
+        {
+            _retreatRequested = true;
             TryStartRetreat();
+        }
     }
 
     private void UpdateChase(float deltaTime)
@@ -199,6 +230,7 @@ public class MonsterChaseRetreat : MonoBehaviour
         if (_playerTransform == null)
         {
             _state = MonsterState.Idle;
+            _retreatRequested = false;
             return;
         }
 
@@ -208,13 +240,14 @@ public class MonsterChaseRetreat : MonoBehaviour
         if (_playerActivityDetector != null && _playerActivityDetector.IsCompletelyStill
             && distanceToPlayer <= stopNearPlayerDistance)
         {
-            // Игрок стоит и монстр уже рядом — останавливаемся, таймер до отхода пойдёт в Idle
+            // Игрок стоит и монстр уже рядом — останавливаемся; таймер не сбрасываем, чтобы накапливалось время в Idle
             _state = MonsterState.Idle;
-            _stillTimer = 0f;
+            _retreatRequested = false;
             return;
         }
 
-        // Игрок далеко или двигается — продолжаем преследование
+        // Игрок далеко или двигается — продолжаем преследование; сбрасываем таймер только когда реально движемся
+        _stillTimer = 0f;
         Vector2 to = _playerTransform.position;
         Vector2 direction = GetMovementDirection(from, to, Time.time, chaseMovementStyle);
         transform.position = from + direction * (chaseSpeed * deltaTime);
@@ -225,8 +258,17 @@ public class MonsterChaseRetreat : MonoBehaviour
         if (retreatPoints == null || retreatPoints.Length == 0)
         {
             _state = MonsterState.Idle;
+            _retreatRequested = false;
             return;
         }
+        if (_monsterView != null)
+            _monsterView.RequestRetreat(OnRetreatReady);
+        else
+            OnRetreatReady();
+    }
+
+    private void OnRetreatReady()
+    {
         _currentRetreatPointIndex = 0;
         _state = MonsterState.Retreat;
     }
@@ -237,6 +279,7 @@ public class MonsterChaseRetreat : MonoBehaviour
         {
             _state = MonsterState.Idle;
             _currentRetreatPointIndex = 0;
+            _retreatRequested = false;
             return;
         }
 
@@ -257,17 +300,7 @@ public class MonsterChaseRetreat : MonoBehaviour
 
         if (distanceToPoint < retreatPointReachDistance)
         {
-            // Дошли до точки — только теперь проверяем, уходить ли в Idle (далеко от игрока) или идти к следующей точке
-            if (_playerTransform != null)
-            {
-                float distanceToPlayer = Vector2.Distance(from, _playerTransform.position);
-                if (distanceToPlayer > minDistanceFromPlayerToResumeIdle)
-                {
-                    _state = MonsterState.Idle;
-                    _currentRetreatPointIndex = 0;
-                    return;
-                }
-            }
+            // Дошли до точки — переходим к следующей (по кругу)
             _currentRetreatPointIndex++;
             if (_currentRetreatPointIndex >= retreatPoints.Length)
                 _currentRetreatPointIndex = 0;

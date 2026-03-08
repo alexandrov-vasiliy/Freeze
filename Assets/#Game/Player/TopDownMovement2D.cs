@@ -4,6 +4,11 @@ using MoreMountains.Feedbacks;
 [RequireComponent(typeof(Rigidbody2D))]
 public class TopDownMovement2D : MonoBehaviour
 {
+    /// <summary>
+    /// Текущее направление движения (нормализованное). (0,0) когда персонаж стоит.
+    /// Используется PlayerView для Blend Tree анимаций.
+    /// </summary>
+    public Vector2 MovementDirection { get; private set; }
 
     public bool isMoving;
     
@@ -50,6 +55,7 @@ public class TopDownMovement2D : MonoBehaviour
         float horizontal = Input.GetAxis(horizontalAxisName);
         float vertical = Input.GetAxis(verticalAxisName);
         Vector2 direction = new Vector2(horizontal, vertical).normalized;
+        MovementDirection = direction;
         Vector2 movement = direction * movementSpeed * Time.fixedDeltaTime;
         _rigidbody.MovePosition(_rigidbody.position + movement);
 
