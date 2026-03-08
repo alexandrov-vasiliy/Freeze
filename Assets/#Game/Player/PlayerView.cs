@@ -14,7 +14,6 @@ using UnityEngine;
 ///    в (0,1), (0,-1), (-1,0), (1,0); при 8 направлениях — диагонали (1,1), (-1,1) и т.д.
 /// 4. Сделать этот стейт стейтом по умолчанию (синяя стрелка Entry).
 /// </summary>
-[RequireComponent(typeof(Animator))]
 public class PlayerView : MonoBehaviour
 {
     [Header("Ссылки")]

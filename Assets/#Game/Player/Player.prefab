@@ -413,8 +413,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -3
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.3132075, g: 0.2854325, b: 0.28863007, a: 1}
+  m_Sprite: {fileID: -5558172462741969635, guid: af93d8ed3624b8348bfa700479526f65, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -492,11 +492,7 @@ GameObject:
   - component: {fileID: 3504537729129652166}
   - component: {fileID: 8003313005889111189}
   - component: {fileID: 8003313005889111190}
-  - component: {fileID: 8923550618486525225}
-  - component: {fileID: 3882287751690987755}
-  - component: {fileID: 6804849184813470374}
   - component: {fileID: 6656746742955588098}
-  - component: {fileID: 3048857375493771211}
   - component: {fileID: 379568734749730964}
   m_Layer: 6
   m_Name: Player
@@ -663,28 +659,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76a5f58502e40241882b7ef8b468f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractorDisplayer
---- !u!95 &3048857375493771211
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7597560929653175413}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &379568734749730964
 MonoBehaviour:
   m_ObjectHideFlags: 0
