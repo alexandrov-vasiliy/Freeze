@@ -6,6 +6,7 @@ public class Main : MonoBehaviour
 {
     [SerializeField] private DeathPanel deathPanel;
     [SerializeField] private GameObject hint;
+    [SerializeField] private SubtitlePlayer subtitle;
     private void Awake()
     {
         ResourceService resourceService = new ResourceService();
@@ -14,5 +15,7 @@ public class Main : MonoBehaviour
         G.Resources = resourceService;
         G.DeathPanel = deathPanel;
         G.hintText = hint;
+        G.subtitleText = subtitle;
+
     }
 }
