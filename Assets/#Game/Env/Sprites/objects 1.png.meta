@@ -371,7 +371,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects 1_10
+      name: campfire_empty
       rect:
         serializedVersion: 2
         x: 113
@@ -450,9 +450,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      campfire_empty: -7212107252432665747
       objects 1_0: -3521081694447203800
       objects 1_1: -5491589657584445201
-      objects 1_10: -7212107252432665747
       objects 1_11: 1978730519813473559
       objects 1_12: -943072249400940909
       objects 1_13: 4024524976310661146

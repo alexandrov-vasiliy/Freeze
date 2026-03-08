@@ -1,14 +1,17 @@
+using System.Collections;
 using UnityEngine;
 using MoreMountains.Feedbacks;
 using FunkyCode;
 
-/// <summary>
-/// Место для костра: в триггере при нажатии E и достаточных ресурсах поджигает костёр —
-/// смена спрайта, звук поджигания, зацикленный звук костра, включение Light2D и анимации ряби света.
-/// </summary>
-[RequireComponent(typeof(Collider2D))]
 public class CampfireSpot : MonoBehaviour
 {
+    public enum CampfireState
+    {
+        Empty,
+        WithWood,
+        Lit
+    }
+
     [System.Serializable]
     public struct ResourceCost
     {
@@ -16,153 +19,247 @@ public class CampfireSpot : MonoBehaviour
         public int amount;
     }
 
-    [Header("Ресурсы для поджигания")]
-    [SerializeField]
-    [Tooltip("Какие ресурсы и в каком количестве нужны для разжигания")]
-    private ResourceCost[] costToLight = new ResourceCost[0];
+    [Header("Состояние")]
+    [SerializeField] private CampfireState currentState = CampfireState.Empty;
+
+    [Header("Цена за дрова")]
+    [SerializeField] private ResourceCost[] costToAddWood;
+
+    [Header("Цена за поджиг")]
+    [SerializeField] private ResourceCost[] costToIgnite;
+
+    [Header("Задержки")]
+    [SerializeField] private float addWoodDelay = 0.2f;
+    [SerializeField] private float igniteDelay = 0.2f;
 
     [Header("Визуал")]
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer baseRenderer;
+    [SerializeField] private Sprite spriteEmpty;
+    [SerializeField] private Sprite spriteWithWood;
+    [SerializeField] private Sprite spriteLitBase;
 
-    [SerializeField]
-    [Tooltip("Спрайт костра до поджигания")]
-    private Sprite spriteUnlit;
+    [SerializeField] private GameObject fireVisual;
+    [SerializeField] private GameObject warmZone;
 
-    [SerializeField]
-    [Tooltip("Спрайт горящего костра")]
-    private Sprite spriteLit;
+    [Header("Звук")]
+    [SerializeField] private AudioSource oneShotAudioSource;
+    [SerializeField] private AudioClip addWoodClip;
+    [SerializeField] private AudioClip igniteClip;
+    [SerializeField] private AudioSource campfireLoopAudioSource;
 
-    [SerializeField] private GameObject _warmZone;
-
-    [Header("Звук и фидбэк")]
-    [SerializeField]
-    [Tooltip("Один раз проигрывается при поджигании")]
-    private MMF_Player igniteFeedbackPlayer;
-
-    [SerializeField]
-    [Tooltip("Зацикленный звук горящего костра")]
-    private AudioSource campfireLoopAudioSource;
+    [Header("Фидбэк")]
+    [SerializeField] private MMF_Player addWoodFeedbackPlayer;
+    [SerializeField] private MMF_Player igniteFeedbackPlayer;
 
     [Header("Свет")]
-    [SerializeField]
-    [Tooltip("2D-свет костра (обычно на дочернем объекте), включается при поджигании")]
-    private Light2D light2D;
-
-    [SerializeField]
-    [Tooltip("Компонент ряби света, включается при поджигании")]
-    private FireLightFlicker fireLightFlicker;
+    [SerializeField] private Light2D light2D;
+    [SerializeField] private FireLightFlicker fireLightFlicker;
 
     private Collider2D _playerColliderInRange;
-    private bool _isLit;
+    private bool _isBusy;
 
     private void Start()
     {
-        if (igniteFeedbackPlayer != null)
-            igniteFeedbackPlayer.Initialization();
+        addWoodFeedbackPlayer?.Initialization();
+        igniteFeedbackPlayer?.Initialization();
 
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>();
-
-        if (spriteRenderer != null && spriteUnlit != null)
-            spriteRenderer.sprite = spriteUnlit;
-
-        if (light2D == null)
-            light2D = GetComponentInChildren<Light2D>(true);
-        if (light2D != null)
-            light2D.enabled = false;
-
-        if (fireLightFlicker == null)
-            fireLightFlicker = GetComponentInChildren<FireLightFlicker>(true);
-        if (fireLightFlicker != null)
-            fireLightFlicker.enabled = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.TryGetComponent<Player>(out _))
-        {
-            G.hintText.SetActive(true);
-            _playerColliderInRange = other;
-        }
-
-        
-    }
-
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other == _playerColliderInRange)
-        {
-            G.hintText.SetActive(false);
-            _playerColliderInRange = null;
-        }
-
+        ApplyStateVisualsImmediate();
     }
 
     private void Update()
     {
-        if (_isLit || _playerColliderInRange == null || !Input.GetKeyDown(KeyCode.E))
+        if (_playerColliderInRange == null || _isBusy || !Input.GetKeyDown(KeyCode.E))
             return;
 
-        if (G.Resources == null || !HasEnoughResources())
-            return;
+        switch (currentState)
+        {
+            case CampfireState.Empty:
+                TryInteractFromEmpty();
+                break;
 
-        if (!TrySpendAllCost())
-            return;
-
-        LightFire();
+            case CampfireState.WithWood:
+                TryInteractFromWithWood();
+                break;
+        }
     }
 
-    /// <summary>
-    /// Проверяет, хватает ли ресурсов для поджигания (без списания).
-    /// </summary>
-    public bool HasEnoughResources()
+    private void TryInteractFromEmpty()
     {
-        if (G.Resources == null || costToLight == null)
-            return false;
+        bool canAddWood = HasEnoughResources(costToAddWood);
+        bool canIgnite = HasEnoughResources(costToIgnite);
 
-        for (int i = 0; i < costToLight.Length; i++)
+        // Если есть всё сразу, делаем оба этапа за одно нажатие
+        if (canAddWood && canIgnite)
         {
-            if (!G.Resources.CanSpend(costToLight[i].type, costToLight[i].amount))
-                return false;
+            StartCoroutine(AddWoodAndIgniteRoutine());
+            return;
         }
 
-        return true;
-    }
-
-    /// <summary>
-    /// Пытается списать все ресурсы из costToLight. При неудаче возвращает ресурсы обратно.
-    /// </summary>
-    private bool TrySpendAllCost()
-    {
-        int spentCount = 0;
-        for (int i = 0; i < costToLight.Length; i++)
+        // Если есть только палки
+        if (canAddWood)
         {
-            if (!G.Resources.TrySpend(costToLight[i].type, costToLight[i].amount))
-            {
-                for (int j = 0; j < spentCount; j++)
-                    G.Resources.Add(costToLight[j].type, costToLight[j].amount);
-                return false;
-            }
-            spentCount++;
+            StartCoroutine(AddWoodOnlyRoutine());
+            return;
         }
 
-        return true;
+        // Если есть только спички, но нет палок - ничего не делаем
     }
 
-    private void LightFire()
+    private void TryInteractFromWithWood()
     {
-        
-        _isLit = true;
-        _warmZone.SetActive(true);
-        
-        if (spriteRenderer != null && spriteLit != null)
-            spriteRenderer.sprite = spriteLit;
+        if (!HasEnoughResources(costToIgnite))
+            return;
 
+        StartCoroutine(IgniteOnlyRoutine());
+    }
+
+    private IEnumerator AddWoodOnlyRoutine()
+    {
+        _isBusy = true;
+
+        if (!TrySpendAllCost(costToAddWood))
+        {
+            _isBusy = false;
+            yield break;
+        }
+
+        PlayOneShot(addWoodClip);
+        addWoodFeedbackPlayer?.PlayFeedbacks();
+
+        if (addWoodDelay > 0f)
+            yield return new WaitForSeconds(addWoodDelay);
+
+        currentState = CampfireState.WithWood;
+        RefreshBaseVisual();
+
+        _isBusy = false;
+    }
+
+    private IEnumerator IgniteOnlyRoutine()
+    {
+        _isBusy = true;
+
+        if (!TrySpendAllCost(costToIgnite))
+        {
+            _isBusy = false;
+            yield break;
+        }
+
+        PlayOneShot(igniteClip);
         igniteFeedbackPlayer?.PlayFeedbacks();
 
+        if (igniteDelay > 0f)
+            yield return new WaitForSeconds(igniteDelay);
+
+        currentState = CampfireState.Lit;
+        RefreshBaseVisual();
+        TurnOnFireEffects();
+
+        _isBusy = false;
+    }
+
+    private IEnumerator AddWoodAndIgniteRoutine()
+    {
+        _isBusy = true;
+
+        // Сначала списываем палки
+        if (!TrySpendAllCost(costToAddWood))
+        {
+            _isBusy = false;
+            yield break;
+        }
+
+        PlayOneShot(addWoodClip);
+        addWoodFeedbackPlayer?.PlayFeedbacks();
+
+        if (addWoodDelay > 0f)
+            yield return new WaitForSeconds(addWoodDelay);
+
+        currentState = CampfireState.WithWood;
+        RefreshBaseVisual();
+
+        // Потом списываем поджиг
+        if (!TrySpendAllCost(costToIgnite))
+        {
+            _isBusy = false;
+            yield break;
+        }
+
+        PlayOneShot(igniteClip);
+        igniteFeedbackPlayer?.PlayFeedbacks();
+
+        if (igniteDelay > 0f)
+            yield return new WaitForSeconds(igniteDelay);
+
+        currentState = CampfireState.Lit;
+        RefreshBaseVisual();
+        TurnOnFireEffects();
+
+        _isBusy = false;
+    }
+
+    private void ApplyStateVisualsImmediate()
+    {
+        RefreshBaseVisual();
+
+        bool isLit = currentState == CampfireState.Lit;
+
+        if (fireVisual != null)
+            fireVisual.SetActive(isLit);
+
+        if (warmZone != null)
+            warmZone.SetActive(isLit);
+
+        if (light2D != null)
+            light2D.enabled = isLit;
+
+        if (fireLightFlicker != null)
+            fireLightFlicker.enabled = isLit;
+
         if (campfireLoopAudioSource != null)
+        {
+            if (isLit)
+            {
+                if (!campfireLoopAudioSource.isPlaying)
+                    campfireLoopAudioSource.Play();
+            }
+            else
+            {
+                campfireLoopAudioSource.Stop();
+            }
+        }
+    }
+
+    private void RefreshBaseVisual()
+    {
+        if (baseRenderer == null)
+            return;
+
+        switch (currentState)
+        {
+            case CampfireState.Empty:
+                baseRenderer.sprite = spriteEmpty;
+                break;
+
+            case CampfireState.WithWood:
+                baseRenderer.sprite = spriteWithWood;
+                break;
+
+            case CampfireState.Lit:
+                baseRenderer.sprite = spriteLitBase;
+                break;
+        }
+    }
+
+    private void TurnOnFireEffects()
+    {
+        if (fireVisual != null)
+            fireVisual.SetActive(true);
+
+        if (warmZone != null)
+            warmZone.SetActive(true);
+
+        if (campfireLoopAudioSource != null && !campfireLoopAudioSource.isPlaying)
             campfireLoopAudioSource.Play();
 
         if (light2D != null)
@@ -170,5 +267,66 @@ public class CampfireSpot : MonoBehaviour
 
         if (fireLightFlicker != null)
             fireLightFlicker.enabled = true;
+    }
+
+    private void PlayOneShot(AudioClip clip)
+    {
+        if (oneShotAudioSource != null && clip != null)
+            oneShotAudioSource.PlayOneShot(clip);
+    }
+
+    private bool HasEnoughResources(ResourceCost[] costs)
+    {
+        if (G.Resources == null || costs == null)
+            return false;
+
+        for (int i = 0; i < costs.Length; i++)
+        {
+            if (!G.Resources.CanSpend(costs[i].type, costs[i].amount))
+                return false;
+        }
+
+        return true;
+    }
+
+    private bool TrySpendAllCost(ResourceCost[] costs)
+    {
+        if (G.Resources == null || costs == null)
+            return false;
+
+        int spentCount = 0;
+
+        for (int i = 0; i < costs.Length; i++)
+        {
+            if (!G.Resources.TrySpend(costs[i].type, costs[i].amount))
+            {
+                for (int j = 0; j < spentCount; j++)
+                    G.Resources.Add(costs[j].type, costs[j].amount);
+
+                return false;
+            }
+
+            spentCount++;
+        }
+
+        return true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Player>(out _))
+        {
+            _playerColliderInRange = other;
+            G.hintText.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other == _playerColliderInRange)
+        {
+            _playerColliderInRange = null;
+            G.hintText.SetActive(false);
+        }
     }
 }
