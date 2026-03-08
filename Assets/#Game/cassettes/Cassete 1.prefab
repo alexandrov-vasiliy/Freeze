@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.02, y: 3.1, z: 0}
-  m_LocalScale: {x: 0.37406456, y: 0.37406456, z: 0.37406456}
+  m_LocalScale: {x: 0.11133378, y: 0.11133378, z: 0.11133378}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2123308686665041399}
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4594720345167028440, guid: fe42c8b526e77e54ab91d0590272d9e8, type: 3}
+  m_Sprite: {fileID: 1651050374233591377, guid: 6bb54b049ca452d48961b43816f6bb6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,7 +133,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 2.56}
+    oldSize: {x: 5.84, y: 2.2104306}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -182,6 +182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dc5889711630d4e8463807ba29c0a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CassetteData
+  cassetteAudio: {fileID: 0}
+  volume: 1
+  subtitles: []
 --- !u!1 &6944445584564418661
 GameObject:
   m_ObjectHideFlags: 0

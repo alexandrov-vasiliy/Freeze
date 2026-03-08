@@ -62,16 +62,19 @@ public class ResourcePick : MonoBehaviour
         if (_playerColliderInRange == null || !Input.GetKeyDown(KeyCode.E))
             return;
 
-        if (G.Resources == null)
-            return;
-
-        G.Resources.Add(resourceType, amountPerPick);
-        pickFeedbackPlayer?.PlayFeedbacks();
-
         if (resourceType == ResourceType.Cassette)
         {
             PlayCassetteContent();
         }
+        else
+        {
+            if (G.Resources == null)
+                return;
+
+            G.Resources.Add(resourceType, amountPerPick);
+        }
+
+        pickFeedbackPlayer?.PlayFeedbacks();
 
         enabled = false;
 
