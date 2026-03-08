@@ -57,6 +57,8 @@ public class CampfireSpot : MonoBehaviour
 
     private Collider2D _playerColliderInRange;
     private bool _isBusy;
+    
+    public bool IsLit => currentState == CampfireState.Lit;
 
     private void Start()
     {
