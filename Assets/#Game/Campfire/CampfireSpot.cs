@@ -317,7 +317,11 @@ public class CampfireSpot : MonoBehaviour
         if (other.TryGetComponent<Player>(out _))
         {
             _playerColliderInRange = other;
-            G.hintText.SetActive(true);
+            if (currentState != CampfireState.Lit)
+            {
+                other.GetComponent<InteractorDisplayer>().Show(gameObject.GetComponent<HintData>().hintText);
+            }
+
         }
     }
 
@@ -326,7 +330,7 @@ public class CampfireSpot : MonoBehaviour
         if (other == _playerColliderInRange)
         {
             _playerColliderInRange = null;
-            G.hintText.SetActive(false);
+            other.GetComponent<InteractorDisplayer>().Hide();
         }
     }
 }

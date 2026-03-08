@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1000000002}
   - component: {fileID: 1000000003}
   - component: {fileID: 1000000004}
+  - component: {fileID: 1702790779602857759}
   - component: {fileID: 1000000005}
   m_Layer: 7
   m_Name: CampfireSpot
@@ -87,7 +88,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 4966732595609684114, guid: f0dbcbb9e94cfa14dab63259b6d9a40c, type: 3}
+  m_Sprite: {fileID: -7212107252432665747, guid: 2a821c95429c1244998a17c5c9286eec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -136,7 +137,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 2.56}
+    oldSize: {x: 5.681387, y: 2.45}
     newSize: {x: 9.28, y: 8.131584}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -144,6 +145,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &1702790779602857759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0f7b113ca6f754d97afa2f4e484dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HintData
+  hintText: 'bring sticks and matches [E]'
 --- !u!114 &1000000005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +374,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1.4539825
+  m_Radius: 20.991127
 --- !u!114 &4149392332182293700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,6 +944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9216121653890361846}
   - component: {fileID: 1438176982469304255}
+  - component: {fileID: 4742703063315058513}
   m_Layer: 7
   m_Name: FlameSpriteRender
   m_TagString: Untagged
@@ -1010,3 +1025,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4742703063315058513
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7172903274760659057}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a7d70cdd25db38146bff63ffe40b6767, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
