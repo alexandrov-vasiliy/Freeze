@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1114411421180406460}
   - component: {fileID: 1323188227263547312}
   - component: {fileID: 1674971511767409830}
+  - component: {fileID: 3220667325224345365}
   m_Layer: 7
   m_Name: Stick
   m_TagString: Untagged
@@ -154,6 +155,20 @@ MonoBehaviour:
   resourceType: 0
   amountPerPick: 1
   pickFeedbackPlayer: {fileID: 2781620068473891499}
+  _spriteRenderer: {fileID: 0}
+--- !u!114 &3220667325224345365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3491361835411935507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0f7b113ca6f754d97afa2f4e484dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HintData
+  hintText: '[E]'
 --- !u!1 &6532225423442465994
 GameObject:
   m_ObjectHideFlags: 0

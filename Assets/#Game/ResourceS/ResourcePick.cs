@@ -37,7 +37,7 @@ public class ResourcePick : MonoBehaviour
         if (other.TryGetComponent<Player>(out _))
         {
             _playerColliderInRange = other;
-            G.hintText.SetActive(true);
+            other.GetComponent<InteractorDisplayer>().Show(gameObject.GetComponent<HintData>().hintText);
         }
 
         
@@ -47,7 +47,7 @@ public class ResourcePick : MonoBehaviour
     {
         if (other == _playerColliderInRange)
         {
-            G.hintText.SetActive(false);
+            other.GetComponent<InteractorDisplayer>().Hide();
             _playerColliderInRange = null;
         }
     }
