@@ -63,6 +63,8 @@ public class ResourcePick : MonoBehaviour
         G.Resources.Add(resourceType, amountPerPick);
         pickFeedbackPlayer?.PlayFeedbacks();
         enabled = false;
+        if(_spriteRenderer is null) return;
+        
         _spriteRenderer.enabled = false;
     }
 }
