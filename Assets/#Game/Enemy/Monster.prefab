@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7123456789012345680}
   - component: {fileID: 7123456789012345681}
   - component: {fileID: 229752550016715301}
-  m_Layer: 0
+  - component: {fileID: 3445131504251555610}
+  m_Layer: 7
   m_Name: Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +71,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 5.78
+  m_Radius: 4.33
 --- !u!114 &7123456789012345681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,24 +88,18 @@ MonoBehaviour:
   - point: {fileID: 0}
     movementStyle: 2
   - point: {fileID: 0}
-    movementStyle: 2
+    movementStyle: 0
   - point: {fileID: 0}
     movementStyle: 1
   - point: {fileID: 0}
     movementStyle: 2
   chaseMovementStyle: 2
-  chaseSpeed: 4
-  retreatSpeed: 3
-  retreatPointReachDistance: 0.15
-  minDistanceFromPlayerToResumeIdle: 8
-  chaseStartSounds:
-  - {fileID: 8300000, guid: 474c9c9e947cb4f4fa6f9718c67cacbf, type: 3}
-  - {fileID: 8300000, guid: e8ad7ae049d126e4083d6299ff32659a, type: 3}
-  - {fileID: 8300000, guid: 27579a8ab3e461e4cb6e7e588bffc3a1, type: 3}
-  - {fileID: 8300000, guid: 66d30055d2f08af498db4e3cfda91431, type: 3}
-  audioSource: {fileID: 229752550016715301}
-  stillDetectionInterval: 2
-  zigzagAmplitude: 2
+  chaseSpeed: 6
+  retreatSpeed: 4
+  retreatPointReachDistance: 1
+  stopNearPlayerDistance: 3
+  stillDetectionInterval: 1
+  zigzagAmplitude: 4
   zigzagFrequency: 7
   arcAmplitude: 2
   arcFrequency: 6
@@ -121,7 +116,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.735
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -205,6 +200,36 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3445131504251555610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7123456789012345678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b149a4a668dc3ab4cb2bf76a13497c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterView
+  animator: {fileID: 4324764218444339235}
+  appearTriggerName: Appear
+  crawlBoolName: IsCrawling
+  disappearTriggerName: Disappear
+  disappearAnimationDuration: 0.35
+  appearSounds:
+  - {fileID: 8300000, guid: 3012d92d429342f47bd8976648231292, type: 3}
+  - {fileID: 8300000, guid: 55da042b87c90d040ad7d0e82706f5fe, type: 3}
+  chaseSounds:
+  - {fileID: 8300000, guid: 474c9c9e947cb4f4fa6f9718c67cacbf, type: 3}
+  - {fileID: 8300000, guid: e8ad7ae049d126e4083d6299ff32659a, type: 3}
+  - {fileID: 8300000, guid: 27579a8ab3e461e4cb6e7e588bffc3a1, type: 3}
+  - {fileID: 8300000, guid: 66d30055d2f08af498db4e3cfda91431, type: 3}
+  disappearSounds:
+  - {fileID: 8300000, guid: 85d48b5bd69f91b41a67a8b1935b1247, type: 3}
+  - {fileID: 8300000, guid: 85d48b5bd69f91b41a67a8b1935b1247, type: 3}
+  - {fileID: 8300000, guid: 85d48b5bd69f91b41a67a8b1935b1247, type: 3}
+  audioSource: {fileID: 229752550016715301}
 --- !u!1 &8092777884944732240
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,8 +240,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5132531350864336304}
   - component: {fileID: 8395373242273399723}
-  m_Layer: 0
-  m_Name: Triangle
+  - component: {fileID: 4324764218444339235}
+  m_Layer: 7
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,7 +258,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.29289, z: 0}
-  m_LocalScale: {x: 2.3859, y: 2.3859, z: 2.3859}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7123456789012345679}
@@ -284,8 +310,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0.7132075, g: 0.27317187, b: 0.27317187, a: 1}
+  m_Sprite: {fileID: 577555924605814209, guid: 95de522b816f0824e960f7f9c94560a8, type: 3}
+  m_Color: {r: 1, g: 0.88113207, b: 0.88113207, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -295,3 +321,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4324764218444339235
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092777884944732240}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 363ae9db9d0df5a478da27002581cd01, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
